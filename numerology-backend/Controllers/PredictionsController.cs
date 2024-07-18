@@ -190,13 +190,13 @@ namespace NumerologystSolution.Controllers
             return Ok(response);
         }
         [HttpGet("PredictionPlanetsGET")]
-        public async Task<IActionResult> PredictionPlanetsGET(string BirthDate, string Gender)
+        public async Task<IActionResult> PredictionPlanetsGET(string BirthDate, string Gender, string Client_id)
         {
 
             try
             {
 
-                DataTable response = await _service.PredictionPlanetsGET(BirthDate, Gender);
+                DataTable response = await _service.PredictionPlanetsGET(BirthDate, Gender, Client_id);
                 var lst = response.AsEnumerable()
                        .Select(r => r.Table.Columns.Cast<DataColumn>()
                        .Select(c => new KeyValuePair<string, object>(c.ColumnName, r[c.Ordinal])

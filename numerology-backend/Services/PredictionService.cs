@@ -20,7 +20,7 @@ namespace NumerologystSolution.Services
         Task<DataTable> PredictionsSubGET(PaginationRequest model, string idstring);
         Task<DataTable> MindNumberPredictionGET(PaginationRequest model, string idstring);
         Task<bool> ALLInOneDeleteORInactiveTables(DeleteModelRequest ObjStruct);
-        Task<DataTable> PredictionPlanetsGET(string BirthDate, string Gender);
+        Task<DataTable> PredictionPlanetsGET(string BirthDate, string Gender, string Client_id);
     }
     public class PredictionService: IPredictionService
     {
@@ -161,11 +161,11 @@ namespace NumerologystSolution.Services
                 throw;
             }
         }
-        public async Task<DataTable> PredictionPlanetsGET(string BirthDate, string Gender)
+        public async Task<DataTable> PredictionPlanetsGET(string BirthDate, string Gender, string Client_id)
         {
             try
             {
-                return await _sqlDBHelper.PredictionPlanetsGET(BirthDate, Gender);
+                return await _sqlDBHelper.PredictionPlanetsGET(BirthDate, Gender, Client_id);
             }
             catch (Exception ex)
             {

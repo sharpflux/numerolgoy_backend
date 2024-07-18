@@ -177,15 +177,13 @@ namespace NumerologystSolution.Services
             };
             return Convert.ToBoolean(await SqlDBHelper.ExecuteNonQuery("dbo.ALLInOneDeleteORInactiveTables", CommandType.StoredProcedure, Parameters));
         }
-        public async Task<DataTable> PredictionPlanetsGET(string BirthDate, string Gender)
+        public async Task<DataTable> PredictionPlanetsGET(string BirthDate, string Gender,string Client_id)
         {
             SqlParameter[] Parameters = new SqlParameter[]
             {
-
                 new SqlParameter("@DOB",BirthDate),
-                new SqlParameter("@Gender",Gender)
-            
-
+                new SqlParameter("@Gender",Gender),
+                new SqlParameter("@Client_id",Client_id)
             };
 
             using (DataTable dt = await SqlDBHelper.ExecuteDataTableWithParametersAsync("[GetMatchingUnMatchingDigits]", CommandType.StoredProcedure, Parameters))
