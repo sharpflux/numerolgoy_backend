@@ -17,7 +17,8 @@ namespace NumerologystSolution.Services
         Task<DataTable> NumerologyBNDNGET(PaginationRequest model, string idstring);
         Task<DataTable> CalculateLoShuGrid(string BirthDate, string Gender ,string Client_id);
 
-
+        Task<string> GetCharacterValueAsync(string name);
+        Task<DataTable> GetVowelSum(string inputName);
 
         }
     public class NumerologyBNDNService : INumerologyBNDNService
@@ -69,6 +70,32 @@ namespace NumerologystSolution.Services
             try
             {
                 return await _sqlDBHelper.CalculateLoShuGrid(BirthDate,Gender, Client_id);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public async Task<string> GetCharacterValueAsync(string name)
+        {
+            try
+            {
+                return await _sqlDBHelper.GetCharacterValueAsync(name);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public async Task<DataTable> GetVowelSum(string inputName)
+        {
+            try
+            {
+                return await _sqlDBHelper.GetVowelSum(inputName);
             }
             catch (Exception ex)
             {

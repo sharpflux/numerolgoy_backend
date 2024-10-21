@@ -112,7 +112,7 @@ namespace OmsSolution.Controllers
                         var urlHelper = _urlHelperFactory.GetUrlHelper(ControllerContext);
                         string encryptedEmail = _dataProtector.Protect(model.emailId);
                         string verificationUrl = urlHelper.Action("Index", "Verify", new { email = encryptedEmail }, HttpContext.Request.Scheme);
-                        _emailSender.SendEmailPaymentNotFound(model.emailId, verificationUrl, model.emailId, model.passwords, model.firstName);
+                       // _emailSender.SendEmailPaymentNotFound(model.emailId, verificationUrl, model.emailId, model.passwords, model.firstName);
 
 
                         //var urlHelper = _urlHelperFactory.GetUrlHelper(ControllerContext);

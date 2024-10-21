@@ -99,6 +99,18 @@ namespace OmsSolution
             services.AddScoped<DOBCalculateDBHelper>();
             services.AddScoped<IRepetitiveService, RepetitiveService>();
             services.AddScoped<RepetitiveDBHelper>();
+            services.AddScoped<IPersonlaYearNumberService, PersonalYearNumberService>();
+            services.AddScoped<PersonalYearNumberDBHelper>();
+
+
+            services.AddScoped<ILifePhaseService, LifePhaseService>();
+            services.AddScoped<LifePhaseDBHelper>();
+
+            services.AddScoped<ISoulService, SoulService>();
+            services.AddScoped<SoulDBHelper>();
+            services.AddScoped<IEssenceService, EssenceService>();
+            services.AddScoped<EssenceDBHelper>();
+
             services.Configure<FormOptions>(options =>
             {
                 options.ValueLengthLimit = int.MaxValue;

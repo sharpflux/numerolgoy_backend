@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System.Security.Policy;
 using System.Net.Mime;
+using System.Threading.Tasks;
 
 namespace OmsSolution.Utilities
 {
@@ -26,237 +27,87 @@ namespace OmsSolution.Utilities
             _httpContextAccessor = httpContextAccessor;
             _hostingEnvironment = hostingEnvironment;
         }
-
-
-
-        public void DispatchEmail(string toEmailAddress, string Invoicefile,string docketfile, StringBuilder table)
+        public async Task PredictionCustomerEmailAsync(string toEmailAddress, string pdfName, string CustomerName)
         {
-
-            string contentRootPath = _hostingEnvironment.ContentRootPath;
-
-            string templatePath = Path.Combine(contentRootPath, "EmailTemplates", "dispatch-email.html");
-            string logoUrl = Path.Combine(contentRootPath, "EmailTemplates", "asset", "initiative-logo.png");
-
-            var request = _httpContextAccessor.HttpContext.Request;
-            string baseUrl = $"{request.Scheme}://{request.Host.ToUriComponent()}";
-
-
-
-            StreamReader reader = new StreamReader(templatePath);
-
-            string readFile = reader.ReadToEnd();
-            string StrContent = "";
-            StrContent = readFile;
-            StrContent = StrContent.Replace("[logourl]", logoUrl);
-            StrContent = StrContent.Replace("[DynamicTableContent]", table.ToString());
-
-
-            DateTime thisDay = DateTime.Now.AddDays(-1);
-            string Day = thisDay.ToString("dd");
-            string Month = thisDay.ToString("MM");
-            string Year = thisDay.ToString("yyyy");
-
-            string Date = Year + "/" + Month + "/" + Day;
-
-            string SenderMail = "hr@sharpflux.com";
-            string SenderCompanyName = "Sharpflux";
-            string EmailPassword = "Arnav@2541";
-            string Host = "us2.smtp.mailhostbox.com";
-            int Port = 587;
-
-
-            var senderEmail = new MailAddress(SenderMail, "Initiative - Dispatch Update");
-            var senderEmailPassword = EmailPassword;
-            var smtpClient = new SmtpClient
-            {
-                Host = Host,
-                Port = Port,
-                EnableSsl = true,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(senderEmail.Address, senderEmailPassword)
-            };
-
-
-            var toEmail = new MailAddress(toEmailAddress);
-
-
-            MailMessage message = new MailMessage(senderEmail, toEmail);
-
-            // Attachments
-            string invoicePath = Path.Combine(contentRootPath, "wwwroot", "invoice", Invoicefile);
-            string docketPath = Path.Combine(contentRootPath, "wwwroot", "docet", docketfile);
-
-            Attachment invoiceAttachment = new Attachment(invoicePath, MediaTypeNames.Application.Pdf);
-            invoiceAttachment.Name = "invoice.pdf";
-
-            Attachment docketAttachment = new Attachment(docketPath, MediaTypeNames.Application.Pdf);
-            docketAttachment.Name = "docket.pdf";
-
-            // Add attachments to the email
-            message.Attachments.Add(invoiceAttachment);
-            message.Attachments.Add(docketAttachment);
-
-
-
-            message.Subject = "Initiative - Dispatch Update";
-            message.Body = StrContent.ToString();
-            message.IsBodyHtml = true;
             try
             {
-                smtpClient.Send(message);
+                string contentRootPath = _hostingEnvironment.ContentRootPath;
+
+                string templatePath = Path.Combine(contentRootPath, "EmailTemplates", "prediction-email.html");
+                string logoUrl = Path.Combine(contentRootPath, "EmailTemplates", "asset", "Numeromystic-LOGO.png");
+
+                var request = _httpContextAccessor.HttpContext.Request;
+                string baseUrl = $"{request.Scheme}://{request.Host.ToUriComponent()}";
+
+                // Read the email template asynchronously
+                string readFile;
+                using (StreamReader reader = new StreamReader(templatePath))
+                {
+                    readFile = await reader.ReadToEndAsync();
+                }
+
+                string StrContent = readFile;
+                StrContent = StrContent.Replace("[logourl]", logoUrl);
+                StrContent = StrContent.Replace("[RecipientName]", CustomerName);
+
+                DateTime thisDay = DateTime.Now.AddDays(-1);
+                string Day = thisDay.ToString("dd");
+                string Month = thisDay.ToString("MM");
+                string Year = thisDay.ToString("yyyy");
+
+                string Date = $"{Year}/{Month}/{Day}";
+
+                string SenderMail = "hr@sharpflux.com";
+                string SenderCompanyName = "Sharpflux";
+                string EmailPassword = "Arnav@2541";
+                string Host = "us2.smtp.mailhostbox.com";
+                // int Port = 587;
+                int Port = 465;
+                var senderEmail = new MailAddress(SenderMail, "Numeromystic - Your Numerology Prediction Report");
+                var senderEmailPassword = EmailPassword;
+                var smtpClient = new SmtpClient
+                {
+                    Host = Host,
+                    Port = Port,
+                    EnableSsl = true,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(senderEmail.Address, senderEmailPassword)
+                };
+
+                var toEmail = new MailAddress(toEmailAddress);
+
+                var message = new MailMessage(senderEmail, toEmail)
+                {
+                    Subject = "Numeromystic - Your Numerology Prediction Report",
+                    Body = StrContent,
+                    IsBodyHtml = true
+                };
+
+                string invoicePath = Path.Combine(contentRootPath, "pdf", pdfName + ".pdf");
+                Attachment invoiceAttachment = new Attachment(invoicePath, MediaTypeNames.Application.Pdf)
+                {
+                    Name = "report.pdf"
+                };
+
+                // Add attachments to the email
+                message.Attachments.Add(invoiceAttachment);
+
+
+                // Send the email asynchronously
+                await smtpClient.SendMailAsync(message);
+
+
             }
             catch (Exception ex)
             {
 
+                throw ex;
             }
-
-
         }
 
-        public void DispatchPlanEmailToCustomer(string toEmailAddress, StringBuilder table)
-        {
-
-            string contentRootPath = _hostingEnvironment.ContentRootPath;
-
-            string templatePath = Path.Combine(contentRootPath, "EmailTemplates", "dispatch-plan-email.html");
-            string logoUrl = Path.Combine(contentRootPath, "EmailTemplates", "asset", "initiative-logo.png");
-
-            var request = _httpContextAccessor.HttpContext.Request;
-            string baseUrl = $"{request.Scheme}://{request.Host.ToUriComponent()}";
 
 
-
-            StreamReader reader = new StreamReader(templatePath);
-
-            string readFile = reader.ReadToEnd();
-            string StrContent = "";
-            StrContent = readFile;
-            StrContent = StrContent.Replace("[logourl]", logoUrl);
-            StrContent = StrContent.Replace("[DynamicTableContent]", table.ToString());
- 
-
-            DateTime thisDay = DateTime.Now.AddDays(-1);
-            string Day = thisDay.ToString("dd");
-            string Month = thisDay.ToString("MM");
-            string Year = thisDay.ToString("yyyy");
-
-            string Date = Year + "/" + Month + "/" + Day;
-
-            string SenderMail = "hr@sharpflux.com";
-            string SenderCompanyName = "Sharpflux";
-            string EmailPassword = "Arnav@2541";
-            string Host = "us2.smtp.mailhostbox.com";
-            int Port = 587;
-
-
-            var senderEmail = new MailAddress(SenderMail, "Initiative - Dispatch Plan Update");
-            var senderEmailPassword = EmailPassword;
-            var smtpClient = new SmtpClient
-            {
-                Host = Host,
-                Port = Port,
-                EnableSsl = true,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(senderEmail.Address, senderEmailPassword)
-            };
-
-
-            var toEmail = new MailAddress(toEmailAddress);
-
-
-            MailMessage message = new MailMessage(senderEmail, toEmail);
-
-
-
-            message.Subject = "Initiative - Dispatch Plan Update";
-            message.Body = StrContent.ToString();
-            message.IsBodyHtml = true;
-            try
-            {
-                smtpClient.Send(message);
-            }
-            catch (Exception ex)
-            {
-
-            }
-
-
-        }
-
-        public void SendEmailPaymentNotFound(string toEmailAddress, string verificationLink,string Username,string Passwords,string RecipientName)
-        {
-
-            string contentRootPath = _hostingEnvironment.ContentRootPath;
-
-            string templatePath = Path.Combine(contentRootPath, "EmailTemplates", "verify-email.html");
-            string logoUrl = Path.Combine(contentRootPath, "EmailTemplates", "asset", "initiative-logo.png");
-
-            var request = _httpContextAccessor.HttpContext.Request;
-            string baseUrl = $"{request.Scheme}://{request.Host.ToUriComponent()}";
- 
-
-
-            StreamReader reader = new StreamReader(templatePath);
-
-            string readFile = reader.ReadToEnd();
-            string StrContent = "";
-            StrContent = readFile;
-            StrContent = StrContent.Replace("[logourl]", logoUrl);
-            StrContent = StrContent.Replace("[verifylink]",verificationLink);
-            StrContent = StrContent.Replace("[Username]", Username);
-            StrContent = StrContent.Replace("[Passwords]", Passwords);
-            StrContent = StrContent.Replace("[RecipientName]", RecipientName);
-
-            DateTime thisDay = DateTime.Now.AddDays(-1);
-            string Day = thisDay.ToString("dd");
-            string Month = thisDay.ToString("MM");
-            string Year = thisDay.ToString("yyyy");
-
-            string Date = Year + "/" + Month + "/" + Day;
-
-            string SenderMail = "hr@sharpflux.com";
-            string SenderCompanyName = "Sharpflux";
-            string EmailPassword = "Arnav@2541";
-            string Host = "us2.smtp.mailhostbox.com";
-            int Port = 587;
-
-
-            var senderEmail = new MailAddress(SenderMail, SenderCompanyName + "Welcome Email");
-            var senderEmailPassword = EmailPassword;
-            var smtpClient = new SmtpClient
-            {
-                Host = Host,
-                Port = Port,
-                EnableSsl = true,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(senderEmail.Address, senderEmailPassword)
-            };
-
-
-            var toEmail = new MailAddress(toEmailAddress);
-
-
-            MailMessage message = new MailMessage(senderEmail, toEmail);
-
-  
-
-            message.Subject = "Welcome Email";
-            message.Body = StrContent.ToString();
-            message.IsBodyHtml = true;
-            try
-            {
-                smtpClient.Send(message);
-            }
-            catch (Exception ex)
-            {
-
-            }
-
-
-        }
 
         public static DateTime UnixTimeStampToDateTime(double unixTimeStamp)
         {

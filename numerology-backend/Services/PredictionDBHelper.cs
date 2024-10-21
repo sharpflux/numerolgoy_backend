@@ -133,6 +133,9 @@ namespace NumerologystSolution.Services
             }
         }
 
+
+
+
         public async Task<DataTable> PredictionsSubGET(PaginationRequest ObjStruct, string idString)
         {
             SqlParameter[] Parameters = new SqlParameter[]

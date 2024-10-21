@@ -410,7 +410,7 @@ namespace WebApi.Services
         {
             try
             {
-                DataSet dataTable = await _sqlDBHelper.MasterRolesGet(new MenuDAL.DynamicMenuStruct
+                DataSet dataTable = await _sqlDBHelper.MasterRolesGetActualRole(new MenuDAL.DynamicMenuStruct
                 {
                     RoleId = 0
                 });

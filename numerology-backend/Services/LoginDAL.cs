@@ -471,7 +471,18 @@ namespace Services
                 return dt.Copy();
             }
         }
+        public async Task<DataSet> MasterRolesGetActualRole(DynamicMenuStruct ObjStruct)
+        {
+            SqlParameter[] Parameters = new SqlParameter[]
+            {
+                new SqlParameter("@Param",ObjStruct.Client_id),
+            };
 
+            using (DataSet dt = await SqlDBHelper.ExecuteDataSetWithParametersAsync("[dbo].[MasterRolesGet]", CommandType.StoredProcedure, Parameters))
+            {
+                return dt.Copy();
+            }
+        }
 
         //public DataTable UserAuthentications(LoginStruct ObjStruct)
         //{

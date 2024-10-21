@@ -10,4 +10,6 @@ namespace OmsSolution.Models
         [Required]
         public string Password { get; set; }
     }
+
+  
 }
