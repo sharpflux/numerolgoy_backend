@@ -115,7 +115,7 @@ namespace NumerologystSolution.Controllers
                 Font boldFont = new Font(baseFont2, 12, Font.BOLD);
                 Font titleFont = new Font(baseFont2, 16, Font.BOLD);
                 Font smallFont = new Font(baseFont2, 10, Font.NORMAL);
-
+                Font smallFontItalic = new Font(baseFont2, 10, Font.ITALIC);
 
                 using (var memoryStream = new MemoryStream())
                 {
@@ -129,7 +129,7 @@ namespace NumerologystSolution.Controllers
                         writer.PageEvent = pageEventHelper;
 
                         // Assuming the wwwroot directory is at the root of your project
-                        string relativePath = Path.Combine("wwwroot", "images", "lord-ganesh.jpg");
+                        string relativePath = Path.Combine("wwwroot", "images", "lord-ganesh1.jpg");
                         // Get the absolute path of the wwwroot directory
 
                         string absolutePath = Path.GetFullPath(relativePath);
@@ -198,12 +198,46 @@ namespace NumerologystSolution.Controllers
 
                         Paragraph newTextParagraph = new Paragraph();
                         newTextParagraph.Add(new Chunk("Introduction:\n", titleFont));
-                        newTextParagraph.Add(new Chunk("Numbers are not good and numbers are not bad. A number has a certain vibrational power which is lucky for one may be unlucky for someone else. It is their relationship with a human, vibrations or an event, which is important. If all things, including you, are placed in a right order with number, the result will be good or else it will not be so good.\n\n", smallFont));
-                        newTextParagraph.Add(new Chunk("When the universe has sent us into this world, he has made you fit for it. So even if you don't rely on numerology, you can conquer the world with your good work and hard work rather life may become a bit easier and pleasant if the wind and your luck is slightly tilted rather on your side than being indifferent to you.\n\n", smallFont));
-                        newTextParagraph.Add(new Chunk("You have to start you have to climb the stairs or ou should go to excelarator  .\n\n", smallFont));
-                        newTextParagraph.Add(new Chunk("Among all the numbers, birth number is the most important as an individual's characteristics, strengths and weaknesses are directly related to the birth number. An individual only has control on self and not the destiny. The destiny number indicates what the destiny is or where the destiny will take you while the birth number indicates what a person wants. A person can always change his wants and desires and work on his weaknesses to succeed in life. Destiny number indicates whether an individual will be able to get results easily or struggling.", smallFont));
+
+                    
+
+                        // Adding the main content
+                       // newTextParagraph.Add(new Chunk("Numbers are not good and numbers are not bad. A number has a certain vibrational power which is lucky for one may be unlucky for someone else. It is their relationship with a human, vibrations or an event, which is important. If all things, including you, are placed in a right order with number, the result will be good or else it will not be so good.\n\n", smallFont));
+
+                        newTextParagraph.Add(new Chunk("Every person born on this earth is defined by a set of numbers (date, month, and year) and letters in the form of a name. Each digit of the date is associated with specific vibrations in the universe, and all letters correspond to numerical vibrations. Therefore, we can say that a person is a yantra, and their name is a mantra. By calling upon that vibration (name), we activate the mantra every time, guiding their life toward their destiny or away from it if the name is incompatible.\n\n", smallFont));
+
+                        newTextParagraph.Add(new Chunk("The date of birth is fixed and cannot be changed, but by adjusting the name vibrations, we can make better decisions in life and move toward health and prosperity.\n\n", smallFont));
+
+                        newTextParagraph.Add(new Chunk("This report helps you identify the hurdles in your life by analyzing your name number, house number, mobile number, and vehicle number, checking their compatibility with your date of birth and destiny number.\n\n", smallFont));
+
+                        newTextParagraph.Add(new Chunk("This does not mean that it is an alternative or shortcut to success and prosperity. Hard work, dedication, and honesty are essential. You will need to follow all these principles and the remedies provided in the report very sincerely, religiously, and with faith.\n\n", smallFont));
+
+
+
+                        newTextParagraph.Add(new Chunk("How to read the report:\n", titleFont));
+                    
                         newTextParagraph.Alignment = Element.ALIGN_JUSTIFIED;
+
                         document.Add(newTextParagraph);
+
+                        // Add the initial paragraph
+                        Paragraph initialParagraph = new Paragraph();
+                        initialParagraph.Add(new Chunk(
+                            "There are two numbers that define your life i.e., Birth Number (BN) and Destiny Number (DN). " +
+                            "The total DOB = BN + DN. All the numbers which come in your life, if compatible with your BN, DN, " +
+                            "create an aura of balance. If not compatible, they create hurdles in your life. So I have given " +
+                            "compatibility checks for your house number, mobile number, and vehicle number and their compatibility " +
+                            "ratings as friendly, non-friendly, or neutral with your BN, DN.\n\n", smallFont));
+                        initialParagraph.Add(new Chunk(
+                            "If both are separate, friendly is best, neutral will not create a problem but unfriendly should be changed " +
+                            "to your lucky number. Remedies are provided within this report to get positive results.\n\n", smallFont));
+                        initialParagraph.Add(new Chunk(
+                            "The traits and attributes of all your important numbers are provided in your chart pages and remedies " +
+                            "are also given below, but all remedies should not be done together. You should read the chart and understand " +
+                            "the problems hurting you or creating trouble, then go for its remedy.\n\n", smallFont));
+                        document.Add(initialParagraph);
+                        initialParagraph.Alignment = Element.ALIGN_JUSTIFIED;
+
 
                         // Continue with the rest of the PDF generation
                         document.NewPage();
@@ -223,7 +257,7 @@ namespace NumerologystSolution.Controllers
 
                         string fontPathComic = Path.Combine("Fonts", "COMIC.ttf"); // Adjust the path as needed
                         BaseFont baseFontComic = BaseFont.CreateFont(fontPathComic, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-                        Font fontTitle = new Font(baseFont, 16, Font.NORMAL);
+                        Font fontTitle = new Font(baseFont, 16, Font.BOLD);
 
                         // Add Title and Date
                         //Font fontTitle = FontFactory.GetFont("Comic Sans MS", 16, Font.BOLD);
@@ -354,9 +388,11 @@ namespace NumerologystSolution.Controllers
                         DataTable prdedData = await _predictionservice.PredictionPlanetsGET(birthDate, gender, clientId);
 
                         Paragraph titleLifePhase = new Paragraph("Life Phases", fontTitle);
+                        titleLifePhase.Add(new Chunk("\nYou will find a turning point in your life at various stage of age given below", smallFont));
+                        titleLifePhase.Add(new Chunk("\n\n", smallFont));
                         titleLifePhase.Alignment = Element.ALIGN_LEFT;
                         document.Add(titleLifePhase);
-                        document.Add(new Chunk("\n"));
+                      //  document.Add(new Chunk("\n"));
                         // Create tables for each phase
                         //PdfPTable tableP1C1 = CreatePhaseTable(data.Rows[0]["P1"].ToString(), data.Rows[0]["C1"].ToString(), data.Rows[0]["Range1"].ToString(), "P1", "C1");
                         //PdfPTable tableP2C2 = CreatePhaseTable(data.Rows[0]["P2"].ToString(), data.Rows[0]["C2"].ToString(), data.Rows[0]["Range2"].ToString(), "P2", "C2");
@@ -425,24 +461,45 @@ namespace NumerologystSolution.Controllers
 
 
 
-                            HtmlDocument doc = new HtmlDocument();
-                            doc.LoadHtml(htmlLifePhase);
-                            doc.OptionFixNestedTags = true;
-                            doc.OptionWriteEmptyNodes = true;
 
-                            StringWriter stringWriterLifePhase = new StringWriter();
-                            doc.Save(stringWriterLifePhase);
-                            string cleanedHtmlContentLifePhase = stringWriterLifePhase.ToString();
+                            HtmlDocument docLP = new HtmlDocument();
+                            docLP.LoadHtml(htmlLifePhase);
+                            docLP.OptionFixNestedTags = true;
+                            docLP.OptionWriteEmptyNodes = true;
 
-                            Paragraph titlePlanet = new Paragraph("Life Phase Predictions", fontTitle);
+                            StringWriter stringWriterLP = new StringWriter();
+                            docLP.Save(stringWriterLP);
+                            string cleanedHtmlContentLP = stringWriterLP.ToString();
+
+                            Paragraph titlePlanet = new Paragraph("Life Phase Predictions and Challanges for this year", fontTitle);
                             titlePlanet.Alignment = Element.ALIGN_LEFT;
                             document.Add(titlePlanet);
-                            document.Add(new Chunk("\n"));
-                            using (StringReader sr = new StringReader(cleanedHtmlContentLifePhase))
+
+                            using (StringReader sr = new StringReader(cleanedHtmlContentLP))
                             {
                                 XMLWorkerHelper.GetInstance().ParseXHtml(writer, document, sr);
-
+                             
                             }
+
+
+                            //HtmlDocument doc = new HtmlDocument();
+                            //doc.LoadHtml(htmlLifePhase);
+                            //doc.OptionFixNestedTags = true;
+                            //doc.OptionWriteEmptyNodes = true;
+
+                            //StringWriter stringWriterLifePhase = new StringWriter();
+                            //doc.Save(stringWriterLifePhase);
+                            //string cleanedHtmlContentLifePhase = stringWriterLifePhase.ToString();
+
+                            //Paragraph titlePlanet = new Paragraph("Life Phase Predictions and Challanges for this year", fontTitle);
+                            //titlePlanet.Alignment = Element.ALIGN_LEFT;
+                            //document.Add(titlePlanet);
+                            //document.Add(new Chunk("\n"));
+                            //using (StringReader sr = new StringReader(cleanedHtmlContentLifePhase))
+                            //{
+                            //    XMLWorkerHelper.GetInstance().ParseXHtml(writer, document, sr);
+
+                            //}
 
 
 
@@ -514,25 +571,118 @@ namespace NumerologystSolution.Controllers
                         document.Add(table22);
 
                         // Loop through the data again to display compatibility messages after the table
+                        //foreach (DataRow row in data.Rows)
+                        //{
+                        //    string compatibility = row["Compatibility"].ToString();
+                        //    string compatibilityType = row["CompatibilityType"].ToString();
+
+                        //    if (compatibility == "Neutral" || compatibility == "NonFriends")
+                        //    {
+                        //        // Create a new paragraph with the compatibility message using smallFont
+                        //        string number = row["Number"].ToString();
+                        //        //string message = $"{number} is not compatible with '{compatibilityType}' name or number. To check compatibility, connect with Numeromystic.";
+                        //        string message = $"{number} is not compatible with '<b>{compatibilityType}</b>' name or number. To check compatibility, connect with Numeromystic.";
+
+                        //        Paragraph compatibilityMessage = new Paragraph(message, smallFont);
+                        //        compatibilityMessage.Alignment = Element.ALIGN_LEFT;
+
+                        //        // Add the paragraph to the document
+                        //        document.Add(new Chunk("\n")); // Optional: Add a line break before the message
+                        //        document.Add(compatibilityMessage);
+                        //    }
+                        //}
+
+                        // Declare StringBuilder for grouping Friends, NonFriends, and Neutral messages
+                        StringBuilder friendsMessageBuilder = new StringBuilder();
+                        StringBuilder nonFriendsMessageBuilder = new StringBuilder();
+                        StringBuilder neutralMessageBuilder = new StringBuilder();
+
+                        String FullNamerPredicion = string.Empty;
+
                         foreach (DataRow row in data.Rows)
                         {
                             string compatibility = row["Compatibility"].ToString();
                             string compatibilityType = row["CompatibilityType"].ToString();
-
-                            if (compatibility == "Neutral" || compatibility == "NonFriends")
+                            string item = row["Item"].ToString(); // Assuming "Item" column exists
+                            string number = row["Number"].ToString();
+                            string digit = row["DigitNo"].ToString();
+                            if (compatibility == "Neutral")
                             {
-                                // Create a new paragraph with the compatibility message using smallFont
-                                string number = row["Number"].ToString();
-                                string message = $"{number} is not compatible with '{compatibilityType}' name or number. To check compatibility, connect with Numeromystic.";
+                                // Append item and number to the Neutral message
+                                neutralMessageBuilder.Append($"{item} ({number}), ");
+                            }
+                            else if (compatibility == "NonFriends")
+                            {
+                                // Append item and number to the NonFriends message
+                                nonFriendsMessageBuilder.Append($"{item} ({number}), ");
+                            }
+                            else if (compatibility == "Friends")
+                            {
+                                // Append item and number to the Friends message
+                                friendsMessageBuilder.Append($"{item} ({number}), ");
+                            }
 
-                                Paragraph compatibilityMessage = new Paragraph(message, smallFont);
-                                compatibilityMessage.Alignment = Element.ALIGN_LEFT;
+                            if(item== "Full Name Number")
+                            {
+                                FullNamerPredicion = $"Your Full Name Number, <b>{number}</b> score in numerology is <b>{digit}</b>, symbolizing a connection with <b>{compatibility}</b>.";
 
-                                // Add the paragraph to the document
-                                document.Add(new Chunk("\n")); // Optional: Add a line break before the message
-                                document.Add(compatibilityMessage);
                             }
                         }
+ 
+                        // Check if there are any Neutral items and add the message
+                        if (neutralMessageBuilder.Length > 0)
+                        {
+                            // Remove the trailing comma and space
+                            string neutralList = neutralMessageBuilder.ToString().TrimEnd(',', ' ');
+
+                            // Create the Neutral message
+                            string neutralMessage = $"Neutral: {neutralList} is/are average result. Please change it to your lucky number for getting the best result.";
+
+                            // Add the message to the document
+                            Paragraph neutralParagraph = new Paragraph(neutralMessage, smallFont);
+                            neutralParagraph.Alignment = Element.ALIGN_LEFT;
+ 
+                            // Add a line break and the Neutral message
+                            document.Add(new Chunk("\n"));
+                            document.Add(neutralParagraph) ;
+                        }
+
+                        // Check if there are any NonFriend  s and add the message
+                        if (nonFriendsMessageBuilder.Length > 0)
+                        {
+                            // Remove the trailing comma and space
+                            string nonFriendsList = nonFriendsMessageBuilder.ToString().TrimEnd(',', ' ');
+
+                            // Create the NonFriends message
+                            string nonFriendsMessage = $"Non Friends: {nonFriendsList} is/are not compatible with your date of birth. Please change total to your lucky number given forward in the report.";
+
+                            // Add the message to the document
+                            Paragraph nonFriendsParagraph = new Paragraph(nonFriendsMessage, smallFont);
+                            nonFriendsParagraph.Alignment = Element.ALIGN_LEFT;
+
+                            // Add a line break and the NonFriends message
+                            document.Add(new Chunk("\n"));
+                            document.Add(nonFriendsParagraph);
+                        }
+
+                        // Check if there are any Friends and add the message
+                        if (friendsMessageBuilder.Length > 0)
+                        {
+                            // Remove the trailing comma and space
+                            string friendsList = friendsMessageBuilder.ToString().TrimEnd(',', ' ');
+
+                            // Create the Friends message
+                            string friendsMessage = $"Friends: {friendsList} are compatible with your date of birth, so no need to change.";
+
+                            // Add the message to the document
+                            Paragraph friendsParagraph = new Paragraph(friendsMessage, smallFont);
+                            friendsParagraph.Alignment = Element.ALIGN_LEFT;
+
+                            // Add a line break and the Friends message
+                            document.Add(new Chunk("\n"));
+                            document.Add(friendsParagraph);
+                        }
+
                         document.NewPage();
                         string jsonResult = string.Empty;
                         string SubPrediction_Master_JSON = string.Empty;
@@ -591,6 +741,9 @@ namespace NumerologystSolution.Controllers
 
                             string htmlSoulContent = ConvertJsonToHtml(SoulPrediction_MasterJson, "Soul", "Soul_Description");
                             string htmlEssenceContent = ConvertJsonToHtml(Essence_Prediction_MasterJson, "Essence", "Essence_Description");
+
+
+                            string htmlSubPredictionContent = ConvertJsonToHtml(SubPrediction_Master_JSON, "Subprediction", "SubPrediction_Description");
 
                             List<PersonalYear> personalYears1 = JsonConvert.DeserializeObject<List<PersonalYear>>(PersonalYear1);
                             List<PersonalYear> personalYears2 = JsonConvert.DeserializeObject<List<PersonalYear>>(PersonalYear2);
@@ -654,6 +807,9 @@ namespace NumerologystSolution.Controllers
                             string htmlSoul = $"{customFontCss}<div style='width: 100%;' font-family: 'ShadowsIntoLight'>{htmlSoulContent}</div>";
                             string htmlEssence = $"{customFontCss}<div style='width: 100%;' font-family: 'ShadowsIntoLight'>{htmlEssenceContent}</div>";
 
+                            string htmlSubPredictions = $"{customFontCss}<div style='width: 100%;' font-family: 'ShadowsIntoLight'>{htmlSubPredictionContent}</div>";
+                            
+
                             //// Ensure the table uses 100% width
                             //string htmlContentWithWidth = $"<div style='width: 100%;'>{htmlContent}</div>";
                             //// Ensure each table uses 100% width
@@ -680,10 +836,35 @@ namespace NumerologystSolution.Controllers
                             doc.Save(stringWriter);
                             string cleanedHtmlContent = stringWriter.ToString();
 
+
+                            HtmlDocument docSubPrediction = new HtmlDocument();
+                            docSubPrediction.LoadHtml(htmlSubPredictions);
+                            docSubPrediction.OptionFixNestedTags = true;
+                            docSubPrediction.OptionWriteEmptyNodes = true;
+
+                            StringWriter stringWriterSubPrediction = new StringWriter();
+                            docSubPrediction.Save(stringWriterSubPrediction);
+                            string cleanedHtmlSubPrediction = stringWriterSubPrediction.ToString();
+
                             Paragraph titlePlanet = new Paragraph("Birth No Strength", fontTitle);
                             titlePlanet.Alignment = Element.ALIGN_LEFT;
                             document.Add(titlePlanet);
-                            document.Add(new Chunk("\n")); // Line break
+                           
+                            Paragraph bnDesc = new Paragraph();
+                            bnDesc.Add(new Chunk(
+                                "(The number is derived from the day you were born, specifically the first two digits of your date of birth. This number reflects your nature, body constitution, and how you react to various situations in life. It also guides you on which colors, days, and numbers to avoid and embrace to achieve maximum prosperity in life.)\n\n",
+                                smallFontItalic));
+
+                            document.Add(bnDesc);
+
+
+                            using (StringReader sr = new StringReader(cleanedHtmlSubPrediction))
+                            {
+                                XMLWorkerHelper.GetInstance().ParseXHtml(writer, document, sr);
+                              
+                            }
+
+
                             using (StringReader sr = new StringReader(cleanedHtmlContent))
                             {
                                 XMLWorkerHelper.GetInstance().ParseXHtml(writer, document, sr);
@@ -692,7 +873,7 @@ namespace NumerologystSolution.Controllers
 
 
                             document.NewPage();
-
+                            document.Add(new Chunk("\n")); // Line break
                             HtmlDocument docDestiny = new HtmlDocument();
                             docDestiny.LoadHtml(htmlDestiny);
                             docDestiny.OptionFixNestedTags = true;
@@ -707,6 +888,12 @@ namespace NumerologystSolution.Controllers
                             Paragraph titleDestiny = new Paragraph("How your Life Path Will be? (Destiny)", fontTitle);
                             titleDestiny.Alignment = Element.ALIGN_LEFT;
                             document.Add(titleDestiny);
+                            Paragraph DestinyDesc = new Paragraph();
+                            DestinyDesc.Add(new Chunk(
+                                "(This number is derived by adding all the digits in your date of birth. The vibrations of this number reveal how your life path will unfold, including the hurdles, breakdowns, and opportunities you may encounter. By aligning this number with your name number, we can navigate your life more effectively and achieve a fulfilled and abundant life.)\n\n",
+                                smallFontItalic));
+
+                            document.Add(DestinyDesc);
                             document.Add(new Chunk("\n")); // Line break
                             using (StringReader sr = new StringReader(cleanedDestiny))
                             {
@@ -727,9 +914,15 @@ namespace NumerologystSolution.Controllers
                             StringWriter stringWriterMindNumberPrediction = new StringWriter();
                             docMindNumberPrediction.Save(stringWriterMindNumberPrediction);
                             string cleanedhtmlMindNumberPrediction = stringWriterMindNumberPrediction.ToString();
-                            Paragraph titleMindNo = new Paragraph("Total Strength", fontTitle);
+                            Paragraph titleMindNo = new Paragraph("Total Strength of your date of birth", fontTitle);
                             titleMindNo.Alignment = Element.ALIGN_LEFT;
                             document.Add(titleMindNo);
+                            Paragraph MindNoDesc = new Paragraph();
+                            MindNoDesc.Add(new Chunk(
+                                "(These numbers are derived by adding your birth number and destiny number. The combined strength of your entire date of birth is encapsulated in these numbers, which remain with us from birth and cannot be changed. What these numbers signify for your life journey is outlined below. However, they can be supported by your name number, allowing us to enhance and align with your destiny for better outcomes.)\n\n",
+                                smallFontItalic));
+
+                            document.Add(MindNoDesc);
                             document.Add(new Chunk("\n"));
 
                             using (StringReader sr = new StringReader(cleanedhtmlMindNumberPrediction))
@@ -740,6 +933,86 @@ namespace NumerologystSolution.Controllers
 
 
                             document.NewPage();
+
+                            //Personal Year 
+
+                            HtmlDocument docPersonalYear = new HtmlDocument();
+                            docPersonalYear.LoadHtml(htmlPersonalYear1);
+                            docPersonalYear.OptionFixNestedTags = true;
+                            docPersonalYear.OptionWriteEmptyNodes = true;
+
+                            StringWriter stringWriterPersonalYear = new StringWriter();
+                            docPersonalYear.Save(stringWriterPersonalYear);
+                            string cleanedhtmlPersonalYear1 = stringWriterPersonalYear.ToString();
+
+                            Paragraph titlePersonalYear = new Paragraph("Your Prediction for " + YearName1, fontTitle);
+                            titlePersonalYear.Alignment = Element.ALIGN_LEFT;
+                            document.Add(titlePersonalYear);
+                            Paragraph PersonalYearDesc = new Paragraph();
+                            PersonalYearDesc.Add(new Chunk(
+                                "(These predictions are based on your date of birth. Please focus on the positive aspects and seize the opportunities this year as suggested. If you want to enhance your results further, consider scheduling a personal consultation with Numeromystic.)\n\n",
+                                smallFontItalic));
+
+                            document.Add(PersonalYearDesc);
+
+                            using (StringReader sr = new StringReader(cleanedhtmlPersonalYear1))
+                            {
+                                XMLWorkerHelper.GetInstance().ParseXHtml(writer, document, sr);
+                            }
+
+                            document.NewPage();
+
+                            HtmlDocument docPersonalYear2 = new HtmlDocument();
+                            docPersonalYear2.LoadHtml(htmlPersonalYear2);
+                            docPersonalYear2.OptionFixNestedTags = true;
+                            docPersonalYear2.OptionWriteEmptyNodes = true;
+
+                            StringWriter stringWriterPersonalYear2 = new StringWriter();
+                            docPersonalYear2.Save(stringWriterPersonalYear2);
+                            string cleanedhtmlPersonalYear2 = stringWriterPersonalYear2.ToString();
+
+                            Paragraph titlePersonalYear2 = new Paragraph("Your Prediction for " + YearName2, fontTitle);
+                            titlePersonalYear2.Alignment = Element.ALIGN_LEFT;
+                            document.Add(titlePersonalYear2);
+                            Paragraph PersonalYear2Desc = new Paragraph();
+                            PersonalYear2Desc.Add(new Chunk(
+                                "(These predictions are based on your date of birth. Please focus on the positive aspects and seize the opportunities this year as suggested. If you want to enhance your results further, consider scheduling a personal consultation with Numeromystic.)\n\n",
+                                smallFontItalic));
+
+                            document.Add(PersonalYear2Desc);
+                            using (StringReader sr = new StringReader(cleanedhtmlPersonalYear2))
+                            {
+                                XMLWorkerHelper.GetInstance().ParseXHtml(writer, document, sr);
+                            }
+
+                            document.NewPage();
+
+                            HtmlDocument docPersonalYear3 = new HtmlDocument();
+                            docPersonalYear3.LoadHtml(htmlPersonalYear3);
+                            docPersonalYear3.OptionFixNestedTags = true;
+                            docPersonalYear3.OptionWriteEmptyNodes = true;
+
+                            StringWriter stringWriterPersonalYear3 = new StringWriter();
+                            docPersonalYear3.Save(stringWriterPersonalYear3);
+                            string cleanedhtmlPersonalYear3 = stringWriterPersonalYear3.ToString();
+
+
+                            Paragraph titlePersonalYear3 = new Paragraph("Your Prediction for" + YearName3, fontTitle);
+                            titlePersonalYear3.Alignment = Element.ALIGN_LEFT;
+                            document.Add(titlePersonalYear3);
+                            Paragraph PersonalYear3Desc = new Paragraph();
+                            PersonalYear3Desc.Add(new Chunk(
+                                "(These predictions are based on your date of birth. Please focus on the positive aspects and seize the opportunities this year as suggested. If you want to enhance your results further, consider scheduling a personal consultation with Numeromystic.)\n\n",
+                                smallFontItalic));
+
+                            document.Add(PersonalYear3Desc);
+                            using (StringReader sr = new StringReader(cleanedhtmlPersonalYear3))
+                            {
+                                XMLWorkerHelper.GetInstance().ParseXHtml(writer, document, sr);
+                            }
+
+                            document.NewPage();
+
                             // Create HTML documents
                             HtmlDocument docMissingNumbers = new HtmlDocument();
                             docMissingNumbers.LoadHtml(htmlMissingNumbers);
@@ -771,9 +1044,15 @@ namespace NumerologystSolution.Controllers
                             string cleanedHtmlRepetitivePrediction = stringWriterRepetitivePrediction.ToString();
 
 
-                            Paragraph titleWeakness = new Paragraph("Weakness", fontTitle);
+                            Paragraph titleWeakness = new Paragraph("Weakness of number in your date of birth", fontTitle);
                             titleWeakness.Alignment = Element.ALIGN_LEFT;
                             document.Add(titleWeakness);
+                            Paragraph WeaknessNoDesc = new Paragraph();
+                            WeaknessNoDesc.Add(new Chunk(
+                                "(These numbers represent weaknesses as identified in your date of birth based on my calculations. To transform these weaknesses into strengths, you need to change your mindset. Review the listed weaknesses and actively work to turn them into positives through your actions.\n If you are experiencing significant symptoms or challenges as described below, please follow the remedies provided for the numbers associated with your issues.)\n\n",
+                                smallFontItalic));
+
+                            document.Add(WeaknessNoDesc);
                             document.Add(new Chunk("\n")); // Line break
 
                             // Add PdfPTables to the document
@@ -791,10 +1070,16 @@ namespace NumerologystSolution.Controllers
 
 
                             document.NewPage();
-                            Paragraph titleRepetitive = new Paragraph("Positive Numbers", fontTitle);
+                            Paragraph titleRepetitive = new Paragraph("You have a strong and positive effects of these numbers in your life", fontTitle);
                             titleRepetitive.Alignment = Element.ALIGN_LEFT;
                             document.Add(titleRepetitive);
-                            document.Add(new Chunk("\n")); // Line break
+                            Paragraph RepetitiveDesc = new Paragraph();
+                            RepetitiveDesc.Add(new Chunk(
+                                "(These numbers are positive aspects of your date of birth. However, if a number repeats more than twice in your date of birth, it may become slightly negative and aggressive. To balance this, focus on self-control and harness the positive attributes of these numbers to enhance your life.)\n\n",
+                                smallFontItalic));
+
+                            document.Add(RepetitiveDesc);
+             
                             PdfPTable tableRepetitivePrediction = new PdfPTable(1);
                             tableRepetitivePrediction.WidthPercentage = 100;
 
@@ -806,70 +1091,7 @@ namespace NumerologystSolution.Controllers
                             document.NewPage();
 
 
-                            //Personal Year 
-
-                            HtmlDocument docPersonalYear = new HtmlDocument();
-                            docPersonalYear.LoadHtml(htmlPersonalYear1);
-                            docPersonalYear.OptionFixNestedTags = true;
-                            docPersonalYear.OptionWriteEmptyNodes = true;
-
-                            StringWriter stringWriterPersonalYear = new StringWriter();
-                            docPersonalYear.Save(stringWriterPersonalYear);
-                            string cleanedhtmlPersonalYear1 = stringWriterPersonalYear.ToString();
-
-                            Paragraph titlePersonalYear = new Paragraph("Your Prediction for " + YearName1, fontTitle);
-                            titlePersonalYear.Alignment = Element.ALIGN_LEFT;
-                            document.Add(titlePersonalYear);
-                            document.Add(new Chunk("\n")); // Line break
-
-                            using (StringReader sr = new StringReader(cleanedhtmlPersonalYear1))
-                            {
-                                XMLWorkerHelper.GetInstance().ParseXHtml(writer, document, sr);
-                            }
-
-                            document.NewPage();
-
-                            HtmlDocument docPersonalYear2 = new HtmlDocument();
-                            docPersonalYear2.LoadHtml(htmlPersonalYear2);
-                            docPersonalYear2.OptionFixNestedTags = true;
-                            docPersonalYear2.OptionWriteEmptyNodes = true;
-
-                            StringWriter stringWriterPersonalYear2 = new StringWriter();
-                            docPersonalYear2.Save(stringWriterPersonalYear2);
-                            string cleanedhtmlPersonalYear2 = stringWriterPersonalYear2.ToString();
-
-                            Paragraph titlePersonalYear2 = new Paragraph("Your Prediction for " + YearName2, fontTitle);
-                            titlePersonalYear2.Alignment = Element.ALIGN_LEFT;
-                            document.Add(titlePersonalYear2);
-                            document.Add(new Chunk("\n")); // Line break
-                            using (StringReader sr = new StringReader(cleanedhtmlPersonalYear2))
-                            {
-                                XMLWorkerHelper.GetInstance().ParseXHtml(writer, document, sr);
-                            }
-
-                            document.NewPage();
-
-                            HtmlDocument docPersonalYear3 = new HtmlDocument();
-                            docPersonalYear3.LoadHtml(htmlPersonalYear3);
-                            docPersonalYear3.OptionFixNestedTags = true;
-                            docPersonalYear3.OptionWriteEmptyNodes = true;
-
-                            StringWriter stringWriterPersonalYear3 = new StringWriter();
-                            docPersonalYear3.Save(stringWriterPersonalYear3);
-                            string cleanedhtmlPersonalYear3 = stringWriterPersonalYear3.ToString();
-
-
-                            Paragraph titlePersonalYear3 = new Paragraph("Your Prediction for" + YearName3, fontTitle);
-                            titlePersonalYear3.Alignment = Element.ALIGN_LEFT;
-                            document.Add(titlePersonalYear3);
-                            document.Add(new Chunk("\n")); // Line break
-                            using (StringReader sr = new StringReader(cleanedhtmlPersonalYear3))
-                            {
-                                XMLWorkerHelper.GetInstance().ParseXHtml(writer, document, sr);
-                            }
-
-                            document.NewPage();
-
+                           
                             //Front Name Fulll Name
 
                             HtmlDocument docFrontNamePrediction = new HtmlDocument();
@@ -884,7 +1106,12 @@ namespace NumerologystSolution.Controllers
                             Paragraph titleFrontName = new Paragraph("Front Name Prediction For Your Carrier /Bussiness", fontTitle);
                             titleFrontName.Alignment = Element.ALIGN_LEFT;
                             document.Add(titleFrontName);
-                            document.Add(new Chunk("\n"));
+                            Paragraph FrontNameDesc = new Paragraph();
+                            FrontNameDesc.Add(new Chunk(
+                                "(Your name is divided into three parts, with the first part representing your career, business, and services. If this part is not compatible with your date of birth, it can create hurdles in your career choices and business endeavors. To resolve this, ensure that the total of your name number aligns with the lucky number provided in the chart (based on the total strength of your date of birth) .\nDetails about what your current name signifies are outlined below. )\n\n",
+                                smallFontItalic));
+
+                            document.Add(FrontNameDesc);
                             using (StringReader sr = new StringReader(cleanedhtmlFrontNamePrediction))
                             {
                                 XMLWorkerHelper.GetInstance().ParseXHtml(writer, document, sr);
@@ -902,13 +1129,24 @@ namespace NumerologystSolution.Controllers
                             Paragraph titleFullName = new Paragraph("Full Name Prediction for you Life Path ,Desitny", fontTitle);
                             titleFullName.Alignment = Element.ALIGN_LEFT;
                             document.Add(titleFullName);
-                            document.Add(new Chunk("\n"));
+                            Paragraph FullNamePredictionDesc = new Paragraph();
+                            FullNamePredictionDesc.Add(new Chunk(
+                                "(The total of your full name is calculated to derive a specific number that indicates how your life will unfold. This number contributes about 40% to your destiny. It is the only element we can adjust to align with specific vibrations, enabling positive changes in your life path that would otherwise be impossible.\n",
+                                smallFontItalic));
+
+                            FullNamePredictionDesc.Add(new Chunk(
+                             " However, great care and precision are needed in this process. Each letter in your name is associated with a specific planet, and an imbalance—either excessive or insufficient influence—can diminish the effectiveness of the name number. Therefore, adjustments must be made thoughtfully to ensure harmony and maximize the benefits.)\n\n",
+                             smallFontItalic));
+
+                            document.Add(FullNamePredictionDesc);
 
                             using (StringReader sr = new StringReader(cleanedhtmlFullNamePrediction))
                             {
                                 XMLWorkerHelper.GetInstance().ParseXHtml(writer, document, sr);
                             }
-
+                            Paragraph descFull = new Paragraph();
+                            descFull.Add(new Chunk(  FullNamerPredicion, fontDate));
+                            document.Add(descFull);
                             document.NewPage();
                             //Paragraph titleRemedies = new Paragraph("Remedies", fontTitle);
                             //titleRemedies.Alignment = Element.ALIGN_LEFT;
@@ -934,10 +1172,15 @@ namespace NumerologystSolution.Controllers
                             docSoul.Save(stringWriterSoul);
                             string cleanedHtmlContentSoul = stringWriterSoul.ToString();
 
-                            Paragraph titleSoul = new Paragraph("Soul Prediction", fontTitle);
+                            Paragraph titleSoul = new Paragraph("Soul Path", fontTitle);
                             titleSoul.Alignment = Element.ALIGN_LEFT;
                             document.Add(titleSoul);
-                            document.Add(new Chunk("\n"));
+                            Paragraph SoulNoDesc = new Paragraph(); 
+                            SoulNoDesc.Add(new Chunk(
+                                "(This number is derived from your name number and reveals how your soul's desires can be fulfilled. It represents the inner voice within everyone's heart—a guiding force that may feel elevated or suffocated by your voluntary or involuntary actions. This number acts as a torch, illuminating the path to achieving true fulfillment of your soul's aspirations.)\n\n",
+                                smallFontItalic));
+
+                            document.Add(SoulNoDesc);
                             using (StringReader sr = new StringReader(cleanedHtmlContentSoul))
                             {
                                 XMLWorkerHelper.GetInstance().ParseXHtml(writer, document, sr);
@@ -955,9 +1198,24 @@ namespace NumerologystSolution.Controllers
                             docEssence.Save(stringWriterEssence);
                             string cleanedHtmlContentEssence = stringWriterEssence.ToString();
 
-                            Paragraph titleEssence = new Paragraph("Essence Prediction", fontTitle);
+                            Paragraph titleEssence = new Paragraph("Essence Prediction - Your would be direction towards destiny this year", fontTitle);
                             titleEssence.Alignment = Element.ALIGN_LEFT;
                             document.Add(titleEssence);
+                            Paragraph EssenceDesc = new Paragraph();
+                            EssenceDesc.Add(new Chunk(
+                                "(This number is calculated to predict the challenges you may face this year, which could disrupt the positive outcomes you had envisioned. To navigate these challenges effectively, take the necessary precautions. I have provided a blueprint of your life path and destiny, which can only be fully supported through proper alignment of your name—your first name influencing your career and your full name number impacting your overall life path.\n",
+                                smallFontItalic));
+
+                            EssenceDesc.Add(new Chunk(
+                               "Lucky numbers have been recommended to which your name number should be adjusted. However, a word of caution: these adjustments should not be made without expert guidance, as they can significantly influence your career, business, relationships, and, most importantly, your health. Name balancing must also consider the health and well-being of your spouse, as it can directly affect them as well.\n",
+                               smallFontItalic));
+
+
+                            EssenceDesc.Add(new Chunk(
+                               "For further guidance and expertise, feel free to connect with Numeromystic. Paid consultancy options are available to assist you in making informed decisions.)\n",
+                               smallFontItalic));
+
+                            document.Add(EssenceDesc);
                             document.Add(new Chunk("\n"));
                             using (StringReader sr = new StringReader(cleanedHtmlContentEssence))
                             {
@@ -974,14 +1232,97 @@ namespace NumerologystSolution.Controllers
                             // For example:
 
                             // Add the disclaimer
+                            //Paragraph disclaimer = new Paragraph();
+                            //disclaimer.Add(new Chunk("Disclaimer:\n", titleFont));
+                            //disclaimer.Add(new Chunk("Numerology is an old and respected system of divination. It is often but not always accurate. The readings and interpretations are always subordinate to individuals' beliefs and their power to choose who and what they are now and will become.\n\n", smallFont));
+                            //disclaimer.Add(new Chunk("Please be advised that numerology readings cannot predict, forecast, diagnose or provide information with absolute certainty. No guarantees or assurances of any kind are given, and the author will not be held accountable for any interpretations or decisions made by recipients based on information provided in readings. Readings are for knowledge purposes only. For legal or medical concerns, please consult with a lawyer or physician.\n\n", smallFont));
+                            //disclaimer.Add(new Chunk("The efficacy of any kind of remedy recommendation (energiser, yantra or facilitating the same) will strictly depend on the faith and devotion of the customer and his belief and intent. Numerology Centre does not offer any guaranteed results in the life of the customer for the recommendation of the remedies.\n\n", smallFont));
+
+                            //disclaimer.Add(new Chunk("It be works when the client is has more faith and disruptive in his mindset the client is ready to change his mindset, actions, beliefs. As remedies with patience and faith, slowly the pattern changes and the hurdles are to now diminishing in pattern.\n\n", smallFont));
+                            //// disclaimer.Add(new Chunk("Images or text from these pages may not be resold, redistributed or republished without prior written permission from Numerocure.", smallFont));
+                            //disclaimer.Alignment = Element.ALIGN_JUSTIFIED;
+                            //document.Add(disclaimer);
+
+
                             Paragraph disclaimer = new Paragraph();
                             disclaimer.Add(new Chunk("Disclaimer:\n", titleFont));
-                            disclaimer.Add(new Chunk("Numerology is an old and respected system of divination. It is often but not always accurate. The readings and interpretations are always subordinate to individuals' beliefs and their power to choose who and what they are now and will become.\n\n", smallFont));
-                            disclaimer.Add(new Chunk("Please be advised that numerology readings cannot predict, forecast, diagnose or provide information with absolute certainty. No guarantees or assurances of any kind are given, and the author will not be held accountable for any interpretations or decisions made by recipients based on information provided in readings. Readings are for knowledge purposes only. For legal or medical concerns, please consult with a lawyer or physician.\n\n", smallFont));
-                            disclaimer.Add(new Chunk("The efficacy of any kind of remedy recommendation (energiser, yantra or facilitating the same) will strictly depend on the faith and devotion of the customer and his belief and intent. Numerology Centre does not offer any guaranteed results in the life of the customer for the recommendation of the remedies.\n\n", smallFont));
 
-                            disclaimer.Add(new Chunk("It be works when the client is has more faith and disruptive in his mindset the client is ready to change his mindset, actions, beliefs. As remedies with patience and faith, slowly the pattern changes and the hurdles are to now diminishing in pattern.\n\n", smallFont));
-                            // disclaimer.Add(new Chunk("Images or text from these pages may not be resold, redistributed or republished without prior written permission from Numerocure.", smallFont));
+                      
+
+                            // Add the sentences to the disclaimer
+                            disclaimer.Add(new Chunk(
+                                "Numerology is an ancient and respected system of divination that offers insights into personality traits, tendencies, and potential life paths.\n\n",
+                                smallFont));
+
+                            disclaimer.Add(new Chunk(
+                                "While many find numerology meaningful, its precision and effectiveness often relies on individual belief towards remedies provided by numeromystic, which we cannot keep or measure by any known tools.\n\n",
+                                smallFont));
+
+                            disclaimer.Add(new Chunk(
+                                "The readings and interpretations provided are not definitive and should not be taken as absolute compulsion; they are suggestions according to my expertise and belief.\n\n",
+                                smallFont));
+                              
+                            disclaimer.Add(new Chunk(
+                                "Every individual retains the power to shape their future through choices, actions, and intentions.\n\n",
+                                smallFont));
+
+                            disclaimer.Add(new Chunk(
+                                "Numerology readings cannot predict, diagnose, or provide guaranteed outcomes with certainty.\n\n",
+                                smallFont));
+
+                            disclaimer.Add(new Chunk(
+                                "No promises or assurances are offered; we shall not be held liable for any actions, decisions, or outcomes resulting from the interpretations given.\n\n",
+                                smallFont));
+
+                            disclaimer.Add(new Chunk(
+                                "These readings are intended for informational and self-reflective purposes only.\n\n",
+                                smallFont));
+
+                            disclaimer.Add(new Chunk(
+                                "For legal, medical, or financial concerns, always seek the advice of qualified professionals such as a lawyer, physician, or financial advisor.\n\n",
+                                smallFont));
+
+                            disclaimer.Add(new Chunk(
+                                "The effectiveness of any recommended remedies, such as energizers or yantras, depends on the customer’s faith, belief, and consistent effort.\n\n",
+                                smallFont));
+
+                            disclaimer.Add(new Chunk(
+                                "Results may vary and are not guaranteed.\n\n",
+                                smallFont));
+
+                            disclaimer.Add(new Chunk(
+                                "Changes in mindset, actions, and belief systems are essential to realizing meaningful transformations.\n\n",
+                                smallFont));
+
+                            disclaimer.Add(new Chunk(
+                                "With patience, trust, and dedication, positive shifts in life patterns can occur over time.\n\n",
+                                smallFont));
+
+                            disclaimer.Add(new Chunk(
+                                "Please note that remedies are most effective when approached with an open mind and a willingness to embrace personal growth.\n\n",
+                                smallFont));
+
+                            disclaimer.Add(new Chunk(
+                                "The path toward transformation is unique for each individual.\n\n",
+                                smallFont));
+
+                            disclaimer.Add(new Chunk(
+                                "As clients develop faith and take meaningful actions, obstacles may diminish, and positive changes are likely to manifest gradually.\n\n",
+                                smallFont));
+
+
+                            disclaimer.Add(new Chunk(
+                              "Predictions given in this numeroscope report and the information given in the following pages shall not be made a cause of legal disputes for any actual or consequential loss to the native. No cause of accidents, any damage, or other loss on this scope is entertained.\n\n",
+                              smallFont));
+
+
+
+
+                            // Add a final note about consultations
+                            disclaimer.Add(new Chunk(
+                                "Let me know if you need any further assistance via paid consultations only!",
+                                smallFont));
+
                             disclaimer.Alignment = Element.ALIGN_JUSTIFIED;
                             document.Add(disclaimer);
 

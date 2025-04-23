@@ -28,22 +28,22 @@ namespace NumerologystSolution.Controllers
         }
 
 
-        [HttpPost("clientsave")]
-        public async Task<IActionResult> clientsave(ClientRequest model)
-        {
-
-            try
-            {
-                var data = await _service.ClientMasterInsertUpdate(model);
-                return Ok(data);
-            }
-            catch (System.Exception ex)
+            [HttpPost("clientsave")]
+            public async Task<IActionResult> clientsave(ClientRequest model)
             {
 
-                throw ex;
-            }
+                try
+                {
+                    var data = await _service.ClientMasterInsertUpdate(model);
+                    return Ok(data);
+                }
+                catch (System.Exception ex)
+                {
 
-        }
+                    throw ex;
+                }
+
+            }
         [HttpPost("saveDOB")]
         public async Task<IActionResult> saveDOB(ClientRequest model)
         {
